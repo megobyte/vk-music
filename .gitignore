@@ -1,0 +1,7 @@
+bower_components/
+node_modules/
+build/
+my.js
+.tags1
+assets/js/libs.js
+g.cmd

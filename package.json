@@ -1,0 +1,23 @@
+{
+  "name": "samsung_s7",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "dependencies": {
+	"less": "latest",
+    "gulp": "latest",
+    "gulp-concat": "latest",
+    "gulp-less": "latest",
+	"gulp-watch": "latest",
+    "gulp-json-srv": "latest",
+    "gulp-connect": "latest",
+    "gulp-pug": "latest",
+    "bower": "latest"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
