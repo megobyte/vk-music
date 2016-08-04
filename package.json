@@ -1,5 +1,5 @@
 {
-  "name": "samsung_s7",
+  "name": "vkmusic",
   "version": "1.0.0",
   "description": "",
   "main": "gulpfile.js",
@@ -12,6 +12,8 @@
     "gulp-json-srv": "latest",
     "gulp-connect": "latest",
     "gulp-pug": "latest",
+    "gulp-crx-pack": "latest",
+    "gulp-clean": "latest",
     "bower": "latest"
   },
   "devDependencies": {},
