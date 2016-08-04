@@ -12,24 +12,10 @@ function handleError(err) {
 
 gulp.task('libJS', function () {
     return gulp.src([
-            './_default.js',
-            './my.js',
-            './bower_components/gsap/src/minified/TweenLite.min.js',
-            './bower_components/gsap/src/minified/TweenMax.min.js',
-            './bower_components/gsap/src/minified/jquery.gsap.min.js',
-            './bower_components/gsap/src/minified/easing/EasePack.min.js',
-            './bower_components/gsap/src/minified/plugins/ColorPropsPlugin.min.js',
-            './bower_components/gsap/src/minified/plugins/CSSRulePlugin.min.js',
-            './bower_components/gsap/src/minified/plugins/EaselPlugin.min.js',
-            './bower_components/gsap-pixi-plugin/PixiPlugin.js',
-
-            './assets/js/models.js',
-            './assets/js/stage.js',
-            './assets/js/stages/*.js',
-            './assets/js/stages/mobile/*.js'
+            './bower_components/jquery/dist/jquery.js',
         ])
         .pipe(concat('libs.js'))
-        .pipe(gulp.dest('./build/assets/js/'))
+        .pipe(gulp.dest('./build/'))
 });
 
 gulp.task('index', function () {
@@ -68,27 +54,21 @@ gulp.task('index_test', function () {
 });
 
 gulp.task('build', function() {
-    gulp.src(['./assets/**/*']).pipe(gulp.dest('./build/assets'));
-    gulp.src(['./bower_components/**/*']).pipe(gulp.dest('./build/bower_components'));
-    gulp.src(['./partials/**/*']).pipe(gulp.dest('./build/partials'));
-    gulp.src(['./robots.txt']).pipe(gulp.dest('./build'));
-    gulp.src(['./favicon.ico']).pipe(gulp.dest('./build'));
+    gulp.src(['./src/*']).pipe(gulp.dest('./build'));
     return;
 });
 
 gulp.task('less', function () {
-    return  gulp.src(['./assets/less/style.less'])
+    return  gulp.src(['./src/vk_style.less'])
                 .pipe(less())
 				.on('error', handleError)
-                .pipe(gulp.dest('./assets/css/'));
+                .pipe(gulp.dest('./build'));
 });
 
 gulp.task('watch', function () {
-    gulp.watch('./assets/less/*.less', ['less', 'build']);
-    gulp.watch('./assets/**/*', ['libJS', 'build']);
-    gulp.watch('./partials/**/*', ['build']);
-    gulp.watch('./*.html', ['build', 'index_test']);
-    gulp.watch('./*.pug', ['pug']);
+    gulp.watch('./src/*.less', ['less', 'build']);
+    gulp.watch('./src/*.js', ['libJS', 'build']);
+    gulp.watch('./src/manifest.json', ['build']);
 });
 
 gulp.task('connect', function(){

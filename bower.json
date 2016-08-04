@@ -1,5 +1,5 @@
 {
-  "name": "samsung_s7",
+  "name": "vkmusic",
   "authors": [
     "megobyte <valera@hiqe.ru>"
   ],
@@ -16,9 +16,6 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "^2.2.0",
-    "angularjs": "latest",
-    "angular-route": "latest",
-    "gsap": "latest"
+    "jquery": "^2.2.0"
   }
 }

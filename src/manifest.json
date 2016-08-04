@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Загрузчик музыки из vk.com",
+  "description": "Позволяет вам загрузить музыку из социальной сети Вконтакте.",
+  "version": "1.1",
+  "web_accessible_resources": ["vk_inject.js", "libs.js"],
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.vk.com/*"],
+      "js": ["script.js"],
+      "css": ["vk_style.css"]
+    }
+  ]
+}
