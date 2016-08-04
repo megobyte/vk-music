@@ -1,14 +1,21 @@
 var gulp = require('gulp'),
 watch = require('gulp-watch'),
+clean = require('gulp-clean'),
 less = require('gulp-less'),
-pug = require('gulp-pug'),
 connect = require('gulp-connect'),
+fs = require('fs'),
+crx = require('gulp-crx-pack'),
 concat = require('gulp-concat');
 
 function handleError(err) {
   console.log(err.toString());
   this.emit('end');
 }
+
+gulp.task('clean', function() {
+    return gulp.src(['./build/*', './dist/*'], {read: false})
+    	.pipe(clean());
+});
 
 gulp.task('libJS', function () {
     return gulp.src([
@@ -18,51 +25,30 @@ gulp.task('libJS', function () {
         .pipe(gulp.dest('./build/'))
 });
 
-gulp.task('index', function () {
-    return gulp.src([
-            './header.html',
-            './content.html',
-            './spy.html',
-            './footer.html'
-        ])
-        .pipe(concat('index.html'))
-        .pipe(gulp.dest('./build/'))
-});
-
-gulp.task('pug', function () {
-    return gulp.src(['*.pug'])
-               .pipe(
-                   pug({
-                       pretty:true,
-                       indent: 4
-                   }).on('error', function(err) {
-                       console.log(err);
-                   })
-                )
-               .pipe(gulp.dest('build'));
-
-});
-
-gulp.task('index_test', function () {
-    return gulp.src([
-            './header.html',
-            './content.html',
-            './footer.html'
-        ])
-        .pipe(concat('index.html'))
-        .pipe(gulp.dest('./build/'))
-});
-
-gulp.task('build', function() {
-    gulp.src(['./src/*']).pipe(gulp.dest('./build'));
-    return;
-});
-
 gulp.task('less', function () {
     return  gulp.src(['./src/vk_style.less'])
                 .pipe(less())
 				.on('error', handleError)
                 .pipe(gulp.dest('./build'));
+});
+
+gulp.task('build', function() {
+    return gulp.src([
+        './src/*.js',
+        './src/*.css',
+        './src/*.json'
+    ]).pipe(gulp.dest('./build'));
+});
+
+gulp.task('crx', ['libJS', 'less', 'build'], function() {
+    var manifest = require('./build/manifest');
+
+    return gulp.src('./build')
+    .pipe(crx({
+      privateKey: fs.readFileSync('./key/build.pem', 'utf8'),
+      filename: manifest.name + '.crx'
+    }))
+    .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('watch', function () {
@@ -75,14 +61,11 @@ gulp.task('connect', function(){
   connect.server({
     root: './build/',
     fallback: './build/index.html',
-    // livereload: true
-    // fallback: 'build/index.html'
-    /*middleware: function(connect, opt) {
-      return [ history() ];
-    }*/
   });
 });
 
-gulp.task('default', ['libJS', 'less', 'build', 'pug']);
-gulp.task('test', ['libJS', 'less', 'build', 'pug']);
-gulp.task('dev', ['test', 'connect', 'watch']);
+gulp.task('default', ['libJS', 'less', 'build']);
+gulp.task('dev', ['default', 'connect', 'watch']);
+gulp.task('dist', ['clean'], function() {
+    gulp.start('crx');
+});

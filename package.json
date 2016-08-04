@@ -12,6 +12,8 @@
     "gulp-json-srv": "latest",
     "gulp-connect": "latest",
     "gulp-pug": "latest",
+    "gulp-crx-pack": "latest",
+    "gulp-clean": "latest",
     "bower": "latest"
   },
   "devDependencies": {},
